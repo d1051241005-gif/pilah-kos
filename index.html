@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PilahKos – Cek & Scan Sampah Anak Kos</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f6f8f3;--card:#fff;--tx:#1d2b22;--mut:#5c6b61;--bd:#dbe3d8;--pri:#1f7a4d;--priTx:#fff;
+--org:#2e9e5b;--ana:#d89a00;--res:#6b7280;--b3:#c0392b}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121a15;--card:#1b261f;--tx:#e8f0ea;--mut:#9fb0a5;--bd:#2c3b31;--pri:#43b878;--priTx:#0b1a11}}
+:root[data-theme="dark"]{--bg:#121a15;--card:#1b261f;--tx:#e8f0ea;--mut:#9fb0a5;--bd:#2c3b31;--pri:#43b878;--priTx:#0b1a11}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--tx);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:860px;margin:0 auto;padding:0 18px 48px}
+h1,h2,h3{line-height:1.2;margin:0 0 .5em}
+section{margin-top:40px}
+.hero{padding:44px 0 8px}
+.hero h1{font-size:clamp(2rem,6vw,3rem)}
+.hero p{font-size:1.1rem;color:var(--mut);max-width:60ch}
+.tag{display:inline-block;background:var(--pri);color:var(--priTx);border-radius:99px;padding:2px 12px;font-size:.8rem;font-weight:600;margin-bottom:12px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:18px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+.stat b{font-size:2rem;color:var(--pri);display:block}
+button,.btn{font:inherit;cursor:pointer;border:0;border-radius:12px;padding:11px 18px;background:var(--pri);color:var(--priTx);font-weight:600;display:inline-block}
+button.alt{background:transparent;color:var(--tx);border:1px solid var(--bd)}
+input[type=text]{font:inherit;width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--tx)}
+.tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.tabs button{background:transparent;color:var(--tx);border:1px solid var(--bd)}
+.tabs button.on{background:var(--pri);color:var(--priTx);border-color:var(--pri)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.chips button{padding:6px 12px;font-weight:500;font-size:.9rem}
+.res{margin-top:14px;border-left:8px solid var(--bd)}
+.res.organik{border-color:var(--org)}.res.anorganik{border-color:var(--ana)}.res.residu{border-color:var(--res)}.res.b3{border-color:var(--b3)}
+.pill{display:inline-block;color:#fff;border-radius:8px;padding:2px 10px;font-weight:700;font-size:.85rem}
+.pill.organik{background:var(--org)}.pill.anorganik{background:var(--ana)}.pill.residu{background:var(--res)}.pill.b3{background:var(--b3)}
+.note{font-size:.85rem;color:var(--mut)}
+.bins .card{border-top:8px solid}
+.bins .o{border-color:var(--org)}.bins .a{border-color:var(--ana)}.bins .r{border-color:var(--res)}.bins .b{border-color:var(--b3)}
+.bins ul{margin:.4em 0 0;padding-left:1.1em}
+#preview{max-width:100%;max-height:240px;border-radius:12px;margin:10px 0;display:none}
+.opt{display:block;width:100%;text-align:left;margin:6px 0;background:var(--card);color:var(--tx);border:1px solid var(--bd)}
+.opt.ok{border-color:var(--org);background:color-mix(in srgb,var(--org) 18%,var(--card))}
+.opt.no{border-color:var(--b3);background:color-mix(in srgb,var(--b3) 15%,var(--card))}
+ol.steps{padding-left:1.2em}
+footer{margin-top:40px;font-size:.85rem;color:var(--mut)}
+</style>
+</head>
+<body>
+<main>
+<header class="hero">
+  <span class="tag">Untuk anak kos</span>
+  <h1>Kamarmu rapi,<br>sampahmu juga harus pilah.</h1>
+  <p>Bingung kulit pisang masuk mana? Bungkus mi instan bisa didaur ulang? Foto atau ketik nama sampahnya, dan PilahKos kasih tahu harus dibuang ke mana.</p>
+  <p><a class="btn" href="#cek">Cek sampahku sekarang</a></p>
+</header>
+
+<section id="masalah">
+  <h2>Kenapa harus dipilah?</h2>
+  <div class="grid">
+    <div class="card stat"><b>Campur</b>Sisa makanan basah merusak kertas dan plastik bersih, sehingga tidak laku didaur ulang.</div>
+    <div class="card stat"><b>Menumpuk</b>Sampah campur berakhir di TPA dan makin penuh. Sampah organik di TPA menghasilkan gas metana.</div>
+    <div class="card stat"><b>Berbahaya</b>Baterai dan obat kedaluwarsa yang tercampur bisa mencemari tanah dan air.</div>
+  </div>
+  <p class="note">Menurut UU No. 18 Tahun 2008, pemilahan adalah bagian dari pengelolaan sampah yang dimulai dari sumbernya, termasuk dari rumah dan kos.</p>
+</section>
+
+<section id="cek">
+  <h2>Cek & Scan Sampah</h2>
+  <div class="card">
+    <div class="tabs">
+      <button id="t1" class="on" onclick="tab(1)">Ketik / pilih</button>
+      <button id="t2" onclick="tab(2)">Scan foto (AI)</button>
+    </div>
+    <div id="p1">
+      <input type="text" id="q" placeholder="Contoh: kulit pisang, botol plastik, baterai…" oninput="cari()">
+      <div class="chips" id="chips"></div>
+    </div>
+    <div id="p2" hidden>
+      <p class="note" style="margin-top:0">Foto satu jenis sampah dengan latar yang jelas. AI bisa keliru, jadi kalau hasilnya ragu, cek lagi lewat pencarian.</p>
+      <input type="file" id="file" accept="image/*" capture="environment" hidden onchange="scan(this.files[0])">
+      <button onclick="document.getElementById('file').click()">Ambil / pilih foto</button>
+      <div><img id="preview" alt="Foto sampah yang dipindai"></div>
+    </div>
+    <div id="out" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="panduan" class="bins">
+  <h2>Panduan 4 wadah di kos</h2>
+  <div class="grid">
+    <div class="card o"><h3>Organik</h3>Sisa makanan, kulit buah, daun, ampas kopi/teh.<ul><li>Tiriskan dulu</li><li>Wadah tertutup, buang tiap hari</li></ul></div>
+    <div class="card a"><h3>Anorganik daur ulang</h3>Botol plastik, kaleng, kardus, kertas, kaca.<ul><li>Kosongkan, bilas, keringkan</li><li>Setor ke bank sampah</li></ul></div>
+    <div class="card r"><h3>Residu</h3>Sachet, styrofoam, plastik kotor, tisu, puntung.<ul><li>Bungkus rapat</li><li>Kurangi pemakaiannya</li></ul></div>
+    <div class="card b"><h3>B3 / khusus</h3>Baterai, lampu, elektronik, obat kedaluwarsa.<ul><li>Jangan dicampur</li><li>Cari titik pengumpulan</li></ul></div>
+  </div>
+</section>
+
+<section id="kuis">
+  <h2>Kuis kilat</h2>
+  <div class="card" id="quiz"></div>
+</section>
+
+<section id="aksi">
+  <h2>Tantangan 7 hari di kosmu</h2>
+  <div class="card">
+    <ol class="steps">
+      <li>Hari ini: siapkan 3 wadah (organik, daur ulang, residu) dan 1 kotak kecil untuk B3.</li>
+      <li>Setiap kali buang sampah, cek dulu di PilahKos kalau ragu.</li>
+      <li>Ajak 1 teman sekos ikut, lalu kumpulkan sampah daur ulang untuk disetor ke bank sampah terdekat.</li>
+    </ol>
+    <p><b>Mulai dari satu botol plastik hari ini.</b></p>
+  </div>
+</section>
+
+<footer>
+  <b>Referensi:</b> Undang-Undang No. 18 Tahun 2008 tentang Pengelolaan Sampah; Kementerian Lingkungan Hidup dan Kehutanan (KLHK), Sistem Informasi Pengelolaan Sampah Nasional (SIPSN). Aturan pemilahan dan titik pengumpulan dapat berbeda per daerah, jadi cek juga ketentuan pemerintah daerahmu.
+</footer>
+</main>
+
+<script>
+var CAT={organik:"Organik",anorganik:"Anorganik (daur ulang)",residu:"Residu",b3:"B3 / khusus"};
+var DB=[
+["kulit pisang,pisang,kulit buah,buah,apel,jeruk","organik","Buang tanpa plastik. Bisa dikomposkan."],
+["sisa makanan,nasi,lauk,sayur,sayuran,tulang","organik","Tiriskan kuahnya, simpan di wadah tertutup, buang setiap hari agar tidak berbau."],
+["ampas kopi,teh,kantong teh,daun,ranting","organik","Keringkan sedikit agar tidak berair. Kantong teh dengan staples sebaiknya dilepas."],
+["botol plastik,botol air,botol minum,pet,aqua","anorganik","Habiskan isinya, bilas, remukkan, lalu pasang tutupnya kembali."],
+["gelas plastik,cup,gelas kopi","anorganik","Bilas sisa minuman. Gelas kertas berlapis plastik sering sulit didaur ulang, tanya bank sampah setempat."],
+["kaleng,kaleng minuman,kaleng sarden","anorganik","Kosongkan dan bilas. Hati-hati sisi tajam pada kaleng makanan."],
+["kardus,dus,kertas,koran,buku,hvs","anorganik","Jaga tetap kering dan bersih. Lipat kardus agar hemat tempat."],
+["botol kaca,kaca,toples","anorganik","Bilas dan buang tutupnya. Botol utuh bisa dikumpulkan, jangan dicampur pecahan."],
+["galon,ember plastik,botol sampo,botol sabun","anorganik","Bilas sisa isinya sampai bersih lalu keringkan."],
+["bungkus mi instan,sachet,bungkus snack,bungkus kopi,kemasan sachet,plastik bungkus","residu","Kemasan sachet multilapis umumnya sulit didaur ulang. Buang sebagai residu, dan kurangi dengan membeli ukuran besar."],
+["kresek,kantong kresek,plastik kresek","residu","Kalau masih bersih, pakai ulang. Kalau kotor atau rusak, buang sebagai residu."],
+["styrofoam,sterofoam,kotak makan styrofoam","residu","Sulit didaur ulang. Lebih baik hindari, bawa wadah sendiri."],
+["tisu,tissue,tisu bekas,masker,puntung,puntung rokok,popok","residu","Bungkus rapat sebelum dibuang agar higienis."],
+["pembalut","residu","Bilas darahnya, bungkus kertas atau plastik, lalu buang sebagai residu."],
+["pecahan kaca,gelas pecah,piring pecah,cermin","residu","Bungkus tebal dengan koran atau kardus dan tulis PECAHAN KACA agar petugas aman."],
+["baterai,aki,batu baterai","b3","Kumpulkan terpisah dan jangan dibuang ke tempat sampah biasa. Cari drop point limbah B3 atau e-waste."],
+["lampu,lampu led,lampu neon,bohlam","b3","Lampu neon mengandung merkuri. Jangan dipecahkan, simpan terpisah untuk dikumpulkan khusus."],
+["hp,charger,kabel,earphone,elektronik,laptop,powerbank","b3","Limbah elektronik. Serahkan ke drop point e-waste atau servis resmi."],
+["obat,obat kedaluwarsa,obat expired","b3","Jangan dibuang ke toilet. Keluarkan dari kemasan, rusak bentuknya, dan tanya apotek atau puskesmas soal pengumpulan."],
+["kaleng aerosol,parfum kaleng,cat,pilox,pembersih toilet","b3","Wadah bahan kimia perlu penanganan khusus. Jangan dibakar atau ditekan."]
+];
+var chips=["kulit pisang","botol plastik","bungkus mi instan","baterai","kardus","tisu"];
+function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML}
+function card(c,item,tip,extra){
+  return '<div class="card res '+c+'"><span class="pill '+c+'">'+CAT[c]+'</span><h3 style="margin-top:8px">'+esc(item)+'</h3><p>'+esc(tip)+'</p>'+(extra||"")+'</div>';
+}
+function cari(v){
+  var q=(v!==undefined?v:document.getElementById("q").value).trim().toLowerCase();
+  if(v!==undefined)document.getElementById("q").value=v;
+  var out=document.getElementById("out");
+  if(!q){out.innerHTML="";return}
+  var hit=null;
+  for(var i=0;i<DB.length&&!hit;i++){
+    var k=DB[i][0].split(",");
+    for(var j=0;j<k.length;j++){if(q.indexOf(k[j])>-1||k[j].indexOf(q)>-1){hit=DB[i];break}}
+  }
+  out.innerHTML=hit?card(hit[1],q,hit[2]):'<div class="card res"><p>Belum ada di daftar. Coba kata lain, atau pakai tab <b>Scan foto</b>. Kalau masih ragu, jangan dicampur ke sampah organik dan tanyakan ke bank sampah setempat.</p></div>';
+}
+var cw=document.getElementById("chips");
+chips.forEach(function(c){var b=document.createElement("button");b.className="alt";b.textContent=c;b.onclick=function(){cari(c)};cw.appendChild(b)});
+function tab(n){
+  document.getElementById("p1").hidden=n!==1;document.getElementById("p2").hidden=n!==2;
+  document.getElementById("t1").className=n===1?"on":"";document.getElementById("t2").className=n===2?"on":"";
+  document.getElementById("out").innerHTML="";
+}
+function shrink(file){
+  return new Promise(function(res,rej){
+    var img=new Image();img.onload=function(){
+      var s=Math.min(1,1024/Math.max(img.width,img.height)),c=document.createElement("canvas");
+      c.width=img.width*s;c.height=img.height*s;c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+      c.toBlob(function(b){b?res(b):rej()},"image/jpeg",.8)};
+    img.onerror=rej;img.src=URL.createObjectURL(file);
+  });
+}
+async function scan(file){
+  if(!file)return;
+  var out=document.getElementById("out"),pv=document.getElementById("preview");
+  pv.src=URL.createObjectURL(file);pv.style.display="block";
+  out.innerHTML='<p class="note">Menganalisis foto…</p>';
+  try{
+    var blob=await shrink(file);
+    var dataUrl=await new Promise(function(resolve,reject){
+      var reader=new FileReader();reader.onload=function(){resolve(reader.result)};reader.onerror=reject;reader.readAsDataURL(blob);
+    });
+    var response=await fetch("/api/scan",{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({image:dataUrl})
+    });
+    var payload=await response.json().catch(function(){return {error:"Respons server tidak valid."}});
+    if(!response.ok)throw new Error(payload.error||"Layanan scan sedang bermasalah.");
+    var d=payload.result;
+    if(!d||!CAT[d.category]||d.confidence==="rendah"){
+      out.innerHTML='<div class="card res"><p>AI kurang yakin dengan fotonya'+(d&&d.item?' (mungkin: '+esc(d.item)+')':'')+'. Coba foto lebih dekat, atau cari lewat tab <b>Ketik / pilih</b>.</p></div>';return}
+    out.innerHTML=card(d.category,d.item,d.tip,'<p class="note">Hasil AI Gemini, keyakinan: '+esc(d.confidence)+'. Kalau terasa janggal, cek ulang lewat pencarian.</p>');
+  }catch(e){
+    out.innerHTML='<div class="card res"><p>Scan gagal: '+esc(e.message||"Terjadi kesalahan.")+'. Coba lagi atau pakai pencarian teks.</p></div>';
+  }
+}
+var QS=[
+["Kulit pisang masuk ke mana?",["Organik","Residu","B3"],0,"Kulit pisang adalah sampah organik yang mudah terurai."],
+["Botol plastik minuman sebaiknya…",["Dibuang bersama sisa makanan","Dibilas lalu dikumpulkan untuk daur ulang","Dibakar"],1,"Bersih dan kering membuat botol laku didaur ulang."],
+["Baterai bekas harus…",["Dibuang ke tempat sampah organik","Dibuang ke selokan","Dipisah dan diserahkan ke titik pengumpulan B3"],2,"Baterai mengandung bahan berbahaya bagi tanah dan air."]
+];
+var qi=0,sc=0;
+function showQ(){
+  var el=document.getElementById("quiz");
+  if(qi>=QS.length){el.innerHTML='<h3>Skormu '+sc+'/'+QS.length+'</h3><p>'+(sc===QS.length?"Mantap, kamu siap jadi jagoan pilah sampah di kos!":"Bagus! Coba cek lagi panduan 4 wadah di atas.")+'</p><button onclick="qi=0;sc=0;showQ()">Ulangi</button>';return}
+  var q=QS[qi];
+  el.innerHTML='<p class="note">Pertanyaan '+(qi+1)+' dari '+QS.length+'</p><h3>'+q[0]+'</h3>'+q[1].map(function(o,i){return '<button class="opt" onclick="ans(this,'+i+')">'+o+'</button>'}).join("")+'<p id="fb"></p>';
+}
+function ans(b,i){
+  var q=QS[qi],bs=document.querySelectorAll(".opt");
+  bs.forEach(function(x){x.disabled=true});
+  var ok=i===q[2];if(ok)sc++;
+  b.className="opt "+(ok?"ok":"no");bs[q[2]].className="opt ok";
+  document.getElementById("fb").innerHTML=(ok?"Benar! ":"Belum tepat. ")+q[3]+'<br><br><button onclick="qi++;showQ()">Lanjut</button>';
+}
+showQ();
+</script>
+</body>
+</html>
